@@ -1,0 +1,10 @@
+matplotlib
+numpy
+pandas
+jupyter
+ipython
+ipykernel
+parse
+markdown
+flask
+scipy
