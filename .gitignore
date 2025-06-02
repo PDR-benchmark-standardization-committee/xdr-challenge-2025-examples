@@ -213,3 +213,6 @@ ground_truth/
 evaalapi_server/trials/
 
 */evaalapi.py
+map/
+
+internal_*
