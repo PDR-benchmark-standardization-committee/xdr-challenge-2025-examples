@@ -237,7 +237,7 @@ def demo (maxw):
     
     ## Set estimates
     time.sleep(maxw)
-    for pos in range(10):
+    for pos in range(20):
         r = do_req("/nextdata?position=%.1f,%.1f,%.1f" % (est[0], est[1], est[2]))
         est = process_data(localizer, r)
         print("---")

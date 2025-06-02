@@ -216,3 +216,5 @@ evaalapi_server/trials/
 map/
 
 internal_*
+
+output/

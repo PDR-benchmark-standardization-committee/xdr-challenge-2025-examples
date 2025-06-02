@@ -234,3 +234,16 @@ GYRO;1.000;1.000;0.00586;0.01454;-0.01265;0
 ```
 
 ![alt text](figs/example2-4.png)
+
+
+### Example 2-5
+
+```
+mkdir output
+python 05demo_get_estimates.py onlinedemo/ http://127.0.0.1:5000/evaalapi/ output/1_est.csv
+```
+
+### Example 3
+
+
+### Example 4

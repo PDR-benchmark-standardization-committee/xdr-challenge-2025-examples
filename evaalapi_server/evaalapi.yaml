@@ -5,6 +5,6 @@ onlinedemo:
     sepch: ';'
     V: 3
     S: 15
-    inipos: 0;0;1
+    inipos: 0,0,1
     reloadable: True
 
