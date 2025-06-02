@@ -41,7 +41,7 @@ def demo (maxw, output_csv):
         print(l)
         s = parse(estfmt, l); 
         x, y, yaw = s.named["pos"].split(",")
-        result.append({"ts" : s.named["pts"], "x": x, "y": y, "yaw": yaw})
+        result.append({"timestamp" : s.named["pts"], "x": x, "y": y, "yaw": yaw})
     df = pd.DataFrame(result)
     print(df)
 
