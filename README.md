@@ -22,7 +22,8 @@ pip install -r requirements.txt
 ### Download and place separately distributed codes/data
 
 #### EvAAL API script
-Please download evaalapi.py from [the EvAAL API webpage](https://evaal.aaloa.org/evaalapi/) and place it to 02_realtime_sample/ and evaalapi_server/.
+Please copy evaalapi.py from [the EvAAL API webpage](https://evaal.aaloa.org/evaalapi/) and place it to both 02_realtime_sample/ and evaalapi_server/.
+(e.g. Make blank file "evaalapi.py" with a text editor and copy contents of evaalapi.py from the above page.)
 
 #### xDR Challenge 2025 dataset
 Please download from the privided link and place it into this folder.
@@ -73,7 +74,7 @@ Please note that the inipos in this track is always 0, 0, 0, which is not true p
 there are following contetnts
 
 * 01demo_simple_request.py : demo script to get data in real time from EvAAL server.
-* 02demo_clas.py : demo script to store the received data.
+* 02demo_class.py : demo script to store the received data.
 * 03demo_location_estimate.py : demo script to estimate location using UWBT and GPOS data.
 * 04demo_data_realtime_plot.py : demo script to show data in a dash in realtime.
 
@@ -141,7 +142,7 @@ AHRS;0.498;0.498;-22.495;-82.104;-105.993;0.60293;0.27022;0.66776;0
 ### Example 2-2
 
 ```
-python 02demo_simple_request.py onlinedemo/ http://127.0.0.1:5000/evaalapi/
+python 02demo_class.py onlinedemo/ http://127.0.0.1:5000/evaalapi/
 ```
 
 
