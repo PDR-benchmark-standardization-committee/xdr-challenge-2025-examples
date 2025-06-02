@@ -36,22 +36,28 @@ After placing, the directory should look like this
 .
 ├── 01_parse_data.ipynb
 ├── 02_realtime_sample
-│   ├── 01demo_simple_request.py
-│   ├── 02demo_class.py
-│   ├── 03demo_location_estimate.py
-│   ├── 04demo_data_realtime_plot.py
-│   ├── evaalapi.py
-│   └── place_evaalapi.py_here
+│   ├── 01demo_simple_request.py
+│   ├── 02demo_class.py
+│   ├── 03demo_location_estimate.py
+│   ├── 04demo_data_realtime_plot.py
+│   ├── 05demo_get_estimates.py
+│   ├── evaalapi.py
+│   └── place_evaalapi.py_here
+├── 03_map_plot.ipynb
 ├── README.md
 ├── evaalapi_server
-│   ├── evaalapi.py
-│   ├── evaalapi.yaml
-│   ├── place_evaalapi.py_here
-│   ├── place_trials_directory_here
-│   └── trials
-│       └── 1.txt
+│   ├── evaalapi.py
+│   ├── evaalapi.yaml
+│   ├── place_evaalapi.py_here
+│   ├── place_trials_directory_here
+│   └── trials
+│       └── 1.txt
+├── figs
+│   └── example2-4.png
 ├── ground_truth
-│   └── 1.csv
+│   └── 1.csv
+├── map
+│   └── miraikan_5.bmp
 └── requirements.txt
 ```
 
@@ -65,19 +71,21 @@ You may change data name to explore other data for the first exploratory data an
 
 
 ## Example 2 : real time data reception and submitting results through EvAAL API
-EvAAL API 
-https://evaal.aaloa.org/evaalapi/
+The example 2 shows how to use [EvAAL API](https://evaal.aaloa.org/evaalapi/) in this competition.
+EvAAL API is a tool to run evaluation of localization system in online or offline restrictions.
+IPIN 2025 competitions use this API.
 
+The scripts in example 2 are just for illustration purposes for the use of API.
 
 Please note that the inipos in this track is always 0, 0, 0, which is not true position.
 
-there are following contetnts
+There are following contetnts
 
 * 01demo_simple_request.py : demo script to get data in real time from EvAAL server.
 * 02demo_class.py : demo script to store the received data.
 * 03demo_location_estimate.py : demo script to estimate location using UWBT and GPOS data.
 * 04demo_data_realtime_plot.py : demo script to show data in a dash in realtime.
-
+* 05demo_get_estimation.py : demo script to get and store the posted estimation results into csv file (please run after 03demo_location_estimate.py).
 
 ### Launch the EvAAL API server
 Open a terminal and run following command.
@@ -97,15 +105,20 @@ Press CTRL+C to quit
 
 
 ### Example 2-1
+This example shows how to request the EvAAL API server for competition.
+
+Please run following commands. 
 
 ```
-cd 02_realtime_sample
+cd 02_realtime_sample # (if not in 02_realtime_sample)
 ```
+
 
 ```
 python 01demo_simple_request.py onlinedemo/ http://127.0.0.1:5000/evaalapi/
 ```
 
+The output should be as follows.
 
 ```
 A demo for the EvAAL API.  Usage is
@@ -140,11 +153,14 @@ AHRS;0.498;0.498;-22.495;-82.104;-105.993;0.60293;0.27022;0.66776;0
 
 
 ### Example 2-2
+This example shows an example to store the received data.
+
 
 ```
 python 02demo_class.py onlinedemo/ http://127.0.0.1:5000/evaalapi/
 ```
 
+The output should be as follows.
 
 ```
 A demo for the EvAAL API.  Usage is
@@ -179,10 +195,13 @@ acce: [{'app_timestamp': 0.001, 'sensor_timestamp': 0.001, 'acc_x': -0.97885, 'a
 
 
 ### Example 2-3
+This example show to post the estimation result as well as a very simple localization method.
 
 ```
 python 03demo_location_estimate.py onlinedemo/ http://127.0.0.1:5000/evaalapi/
 ```
+
+The output should be as follows.
 
 ```
 A demo for the EvAAL API.  Usage is
@@ -228,22 +247,28 @@ GYRO;1.000;1.000;0.00586;0.01454;-0.01265;0
 ```
 
 ### Example 2-4
+This example shows how to plot data as a dashboard. Just for illustration.
 
 ```
  python 04demo_data_realtime_plot.py onlinedemo/ http://127.0.0.1:5000/evaalapi/
 ```
 
+The output should be as follows
 ![alt text](figs/example2-4.png)
 
 
 ### Example 2-5
+This example shows how to get and store the estimation results which are posted to the server.
+As it gets results from the server, you should post data (e.g. 03_demo_location_estimate.py) before running this script.
 
 ```
 mkdir output
 python 05demo_get_estimates.py onlinedemo/ http://127.0.0.1:5000/evaalapi/ output/1_est.csv
 ```
 
-### Example 3
+After running the script, you will have `output/1_est.csv`, which contains estimation results got from the server.
 
-
-### Example 4
+## Example 3
+`03_map_plot.ipynb` shows how to plot the location data in the given map.
+As this notebook plots estimation results, you should run example 2-5 before running this notebook.
+Please see the notebook for more information.
