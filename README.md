@@ -272,12 +272,11 @@ This example shows an example to run PDR and integrated localization.
 This example also automatically terminates the trial when the server responds there are no more data.
 After running this example, you may visualize the result by running example 3.
 
+Please note that this is a very simple example, so the localization result is very inaccurate.
+
 ```
-mkdir output
 python 06demo_location_estimate_pdr.py onlinedemo/ http://127.0.0.1:5000/evaalapi/ output/1_est.csv
 ```
-
-After running the script, you will have `output/1_est.csv`, which contains estimation results got from the server.
 
 ## Example 3
 `03_map_plot.ipynb` shows how to plot the location data in the given map.
