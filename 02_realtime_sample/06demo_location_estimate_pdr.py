@@ -461,7 +461,7 @@ def process_data(localizer, recv_data):
 
 def demo (maxw, output_csv):
     pdr_model = SimplePDR()
-    localizer = DemoLocalizer(pdr_model=pdr_model, show_dash=True)
+    localizer = DemoLocalizer(pdr_model=pdr_model)
 
     ## First of all, reload
     r = do_req("/reload")
@@ -484,7 +484,7 @@ def demo (maxw, output_csv):
     
     ## Set estimates
     time.sleep(maxw)
-    for pos in range(2000):
+    while True:
         r = do_req("/nextdata?position=%.1f,%.1f,%.1f" % (est[0], est[1], est[2]))
         est = process_data(localizer, r)
         print("---")
@@ -528,6 +528,6 @@ if __name__ == '__main__':
         server = sys.argv[2]
         output_csv = sys.argv[3]
         
-    maxw = 0.0 # you may set this value to zero to run at maximum speed
+    maxw = 0.5 # set this value to 0.0 to run at maximum speed
     demo(maxw, output_csv)
     exit(0)
