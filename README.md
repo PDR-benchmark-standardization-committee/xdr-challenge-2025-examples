@@ -1,6 +1,6 @@
 # Example notebooks and scripts for xDR Challenge 2025
 
-This repository contains examples for xDR Challenge 2025.
+This repository contains examples for [xDR Challenge 2025](https://unit.aist.go.jp/rihsa/xDR-Challenge-2025/).
 
 ## Setup
 
