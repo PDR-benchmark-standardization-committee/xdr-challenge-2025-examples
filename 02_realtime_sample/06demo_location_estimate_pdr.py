@@ -63,7 +63,7 @@ def wrap_angle_pi(angle):
 
 
 class SimplePDR:
-    def __init__(self, acc_thresh=0.05, pdr_window_sec=1.0, default_velocity=1.0):
+    def __init__(self, acc_thresh=0.1, pdr_window_sec=1.0, default_velocity=0.7):
         self.acc_thresh = acc_thresh
         self.pdr_window_sec = pdr_window_sec
         self.default_velocity = default_velocity
@@ -162,14 +162,13 @@ class DemoLocalizer:
         
         ts = data["sensor_timestamp"]
         
-        q = recover_quat([data["quat_2"], data["quat_3"], data["quat_4"]])
-        #print(q)
-        yaw = get_yaw_from_quat(q)
-        yaw_diff = 0
-        if len(self.yaw_angles) > 1:
-            yaw_diff = wrap_angle_pi(yaw - self.yaw_angles[-1]["yaw"])
+        yaw = (data["yaw_z"])/180 * np.pi
         
-        self.yaw_angles.append({"timestamp" : ts, "yaw": yaw, "dyaw" : yaw_diff})
+        dyaw = 0
+        if len(self.yaw_angles) > 1:
+            dyaw = wrap_angle_pi(yaw - self.yaw_angles[-1]["yaw"])
+        
+        self.yaw_angles.append({"timestamp" : ts, "yaw": yaw, "dyaw" : dyaw})
         
     def callback_uwbp(self, data):
         self.uwbp_data.append(data)
@@ -296,12 +295,9 @@ class DemoLocalizer:
                     dt = (idx - prev_idx).total_seconds()
                 
                 velocity = row['velocity']
-                current_yaw = yaw
                 
-                print(velocity)
-                print(dt)
-                dx = velocity * np.cos(current_yaw) * dt
-                dy = velocity * np.sin(current_yaw) * dt
+                dx = velocity * np.cos(yaw) * dt
+                dy = velocity * np.sin(yaw) * dt
                 
                 x += dx
                 y += dy
@@ -528,6 +524,6 @@ if __name__ == '__main__':
         server = sys.argv[2]
         output_csv = sys.argv[3]
         
-    maxw = 0.5 # set this value to 0.0 to run at maximum speed
+    maxw = 0.0 # set this value to 0.0 to run at maximum speed
     demo(maxw, output_csv)
     exit(0)
