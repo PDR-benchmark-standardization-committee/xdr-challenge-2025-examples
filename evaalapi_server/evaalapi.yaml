@@ -1,3 +1,12 @@
+onlinedemo:
+    datafile: 1.txt
+    commsep: '%'
+    sepch: ';'
+    V: 3
+    S: 15
+    inipos: 0,0,1
+    reloadable: True
+
 trial001:
     datafile: 001.txt
     commsep: '%'
