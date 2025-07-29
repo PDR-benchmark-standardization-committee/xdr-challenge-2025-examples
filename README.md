@@ -269,6 +269,7 @@ After running the script, you will have `output/df_est_001.csv`, which contains 
 
 ### Example 2-6
 This example shows an example to run PDR and integrated localization.
+You can participate in the competition with this example.
 This example also automatically terminates the trial when the server responds there are no more data.
 After running this example, you may visualize the result by running example 3.
 
