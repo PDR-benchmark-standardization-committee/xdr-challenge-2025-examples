@@ -282,3 +282,9 @@ python 06demo_location_estimate_pdr.py onlinedemo/ http://127.0.0.1:5000/evaalap
 `03_map_plot.ipynb` shows how to plot the location data in the given map.
 As this notebook plots estimation results, you should run example 2-5 before running this notebook.
 Please see the notebook for more information.
+
+
+# Coordinate systems
+Please refer to [the document](https://github.com/PDR-benchmark-standardization-committee/xdr-challenge-2025-examples/blob/main/competition_coordinates.pdf) for detailed information.
+If you are interested in the static transformation from base_link to each tag, please refer to [this urdf](https://github.com/CMU-cabot/cabot-description/blob/3d0a470005f6854da3ad0e957ad2af3821fc7f31/cabot_description/robots/cabot3-a1.urdf.xacro.xml#L89-L112).
+
