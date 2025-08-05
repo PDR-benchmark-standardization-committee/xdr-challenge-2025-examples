@@ -524,6 +524,6 @@ if __name__ == '__main__':
         server = sys.argv[2]
         output_csv = sys.argv[3]
         
-    maxw = 0.0 # set this value to 0.0 to run at maximum speed
+    maxw = 0.5 # set this value to 0.0 to run at maximum speed
     demo(maxw, output_csv)
     exit(0)
