@@ -36,18 +36,6 @@ def spherical_to_cartesian(distance, azimuth_deg, elevation_deg):
     return x, y, z
 
 
-def recover_quat(quat_xyz):
-    norm_xyz = (quat_xyz[0]**2 + quat_xyz[1]**2 + quat_xyz[2]**2)
-    if norm_xyz > 1.0: 
-        norm_xyz = 1.0
-        quat_w = 0
-    else:
-        quat_w = np.sqrt(1 - (quat_xyz[0]**2 + quat_xyz[1]**2 + quat_xyz[2]**2))
-    q = np.array([quat_xyz[0], quat_xyz[1], quat_xyz[2], quat_w])
-    
-    return q
-
-
 def get_yaw_from_quat(quat_xyzw):
     x, y, z, w = quat_xyzw
     yaw = np.arctan2(2.0 * (w*z + x*y), 1.0 - 2.0 * (y*y + z*z))
@@ -183,7 +171,7 @@ class DemoLocalizer:
         self.update_timestamp(data)
 
         if self.state == LocStatus.INITIALIZING and data["object_id"] == "base_link":
-            q = recover_quat([data["quat_x"], data["quat_y"], data["quat_z"]])
+            q = np.array([data["quat_x"], data["quat_y"], data["quat_z"], data["quat_z"]])
             yaw = get_yaw_from_quat(q)
             self.last_est = (data["location_x"], data["location_y"], yaw)
             self.last_estimate_ts = data["sensor_timestamp"]
@@ -210,8 +198,8 @@ class DemoLocalizer:
             dy = current_pose["y"] - self.last_vio_pose["y"]
             dz = current_pose["z"] - self.last_vio_pose["z"]
             
-            curr_q = recover_quat([current_pose["quat_x"], current_pose["quat_y"], current_pose["quat_z"]])
-            last_q = recover_quat([self.last_vio_pose["quat_x"], self.last_vio_pose["quat_y"], self.last_vio_pose["quat_z"]])
+            curr_q = np.array([current_pose["quat_x"], current_pose["quat_y"], current_pose["quat_z"], current_pose["quat_w"]])
+            last_q = np.array([self.last_vio_pose["quat_x"], self.last_vio_pose["quat_y"], self.last_vio_pose["quat_z"], self.last_vio_pose["quat_w"]])
             
             curr_yaw = get_yaw_from_quat(curr_q)
             last_yaw = get_yaw_from_quat(last_q)
@@ -259,7 +247,7 @@ class DemoLocalizer:
         q = None
         if latest_gpos is not None:            
             loc = np.array((latest_gpos["location_x"], latest_gpos["location_y"], latest_gpos["location_z"]))
-            q = recover_quat([latest_gpos["quat_x"], latest_gpos["quat_y"], latest_gpos["quat_z"]])
+            q = np.array([latest_gpos["quat_x"], latest_gpos["quat_y"], latest_gpos["quat_z"], latest_gpos["quat_w"]])
         return loc, q
 
     def predict_by_pdr(self):
@@ -404,11 +392,11 @@ def parse_data(sensor_type, data_row):
         'ACCE': ['app_timestamp', 'sensor_timestamp', 'acc_x', 'acc_y', 'acc_z', 'accuracy'],
         'GYRO': ['app_timestamp', 'sensor_timestamp', 'gyr_x', 'gyr_y', 'gyr_z', 'accuracy'],
         'MAGN': ['app_timestamp', 'sensor_timestamp', 'mag_x', 'mag_y', 'mag_z', 'accuracy'],
-        'AHRS': ['app_timestamp', 'sensor_timestamp', 'pitch_x', 'roll_y', 'yaw_z', 'quat_2', 'quat_3', 'quat_4', 'accuracy'],
+        'AHRS': ['app_timestamp', 'sensor_timestamp', 'pitch_x', 'roll_y', 'yaw_z', 'quat_2', 'quat_3', 'quat_4', 'quat_w', 'accuracy'],
         'UWBP': ['app_timestamp', 'sensor_timestamp', 'tag_id', 'distance', 'direction_vec_x', 'direction_vec_y', 'direction_vec_z'],
         'UWBT': ['app_timestamp', 'sensor_timestamp', 'tag_id', 'distance', 'aoa_azimuth', 'aoa_elevation', 'nlos'],
-        'GPOS': ['app_timestamp', 'sensor_timestamp', 'object_id', 'location_x', 'location_y', 'location_z', 'quat_x', 'quat_y', 'quat_z'],
-        'VISO': ['app_timestamp', 'sensor_timestamp', 'location_x', 'location_y', 'location_z', 'quat_x', 'quat_y', 'quat_z']
+        'GPOS': ['app_timestamp', 'sensor_timestamp', 'object_id', 'location_x', 'location_y', 'location_z', 'quat_x', 'quat_y', 'quat_z', 'quat_w'],
+        'VISO': ['app_timestamp', 'sensor_timestamp', 'location_x', 'location_y', 'location_z', 'quat_x', 'quat_y', 'quat_z', 'quat_w']
     }
     if sensor_type not in columns: 
         return None
@@ -524,6 +512,6 @@ if __name__ == '__main__':
         server = sys.argv[2]
         output_csv = sys.argv[3]
         
-    maxw = 0.0 # set this value to 0.0 to run at maximum speed
+    maxw = 0.5 # set this value to 0.0 to run at maximum speed
     demo(maxw, output_csv)
     exit(0)
