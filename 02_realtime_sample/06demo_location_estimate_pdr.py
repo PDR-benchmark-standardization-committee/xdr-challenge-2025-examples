@@ -469,7 +469,7 @@ def demo (maxw, output_csv):
     ## Set estimates
     time.sleep(maxw)
     while True:
-        r = do_req("/nextdata?position=%.1f,%.1f,%.1f" % (est[0], est[1], est[2]))
+        r = do_req("/nextdata?position=%.3f,%.3f,%.3f" % (est[0], est[1], est[2]))
         est = process_data(localizer, r)
         print("---")
         print(est)
@@ -512,6 +512,6 @@ if __name__ == '__main__':
         server = sys.argv[2]
         output_csv = sys.argv[3]
         
-    maxw = 0.5 # set this value to 0.0 to run at maximum speed
+    maxw = 0.0 # set this value to 0.0 to run at maximum speed
     demo(maxw, output_csv)
     exit(0)
