@@ -190,7 +190,8 @@ class DemoLocalizer:
             "z": data["location_z"],
             "quat_x": data["quat_x"],
             "quat_y": data["quat_y"],
-            "quat_z": data["quat_z"]
+            "quat_z": data["quat_z"],
+            "quat_w": data["quat_w"]
         }
         
         if self.last_vio_pose is not None:
@@ -469,11 +470,16 @@ def demo (maxw, output_csv):
     ## Set estimates
     time.sleep(maxw)
     while True:
-        r = do_req("/nextdata?position=%.3f,%.3f,%.3f" % (est[0], est[1], est[2]))
+        r = do_req("/nextdata?position=%.3f,%.3f,%.3f" % (est[0], est[1], est[2]))        
+        if r.status_code == 423:# The HTTP GET request was faster than real time. wait a while.
+            time.sleep(0.05) 
+            continue
+        
         est = process_data(localizer, r)
         print("---")
         print(est)
         time.sleep(maxw)
+        
         if r.status_code == 405:
             break # end of competition data
 
